@@ -1,3 +1,19 @@
+# DAI contracts tweaked to work with Optimism Rollup
+
+Changes:
+
+- tweak interface to allow for minting and withdrawing using `CrossDomainMessenger`
+- remove `auth` releated methods in dai b/c they are no longer needed
+
+To build it, you need optimistic solc. We provide it as npm package. To make a build run:
+
+```
+yarn
+yarn build
+```
+
+Build artifacts are in `build`.
+
 # Multi Collateral Dai
 [![Build Status](https://travis-ci.com/makerdao/dss.svg?branch=master)](https://travis-ci.com/makerdao/dss)
 [![codecov](https://codecov.io/gh/makerdao/dss/branch/master/graph/badge.svg)](https://codecov.io/gh/makerdao/dss)

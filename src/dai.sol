@@ -20,15 +20,6 @@ pragma solidity >=0.5.12;
 import "./lib.sol";
 
 contract Dai is LibNote {
-    // --- Auth ---
-    mapping (address => uint) public wards;
-    function rely(address guy) external note auth { wards[guy] = 1; }
-    function deny(address guy) external note auth { wards[guy] = 0; }
-    modifier auth {
-        require(wards[msg.sender] == 1, "Dai/not-authorized");
-        _;
-    }
-
     // --- ERC20 Data ---
     string  public constant name     = "Dai Stablecoin";
     string  public constant symbol   = "DAI";
@@ -57,7 +48,6 @@ contract Dai is LibNote {
     bytes32 public constant PERMIT_TYPEHASH = 0xea2aa0a1be11a07ed86d755c93467f4f82362b452371d1ba94d1715123511acb;
 
     constructor(uint256 chainId_) public {
-        wards[msg.sender] = 1;
         DOMAIN_SEPARATOR = keccak256(abi.encode(
             keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
             keccak256(bytes(name)),
@@ -84,12 +74,12 @@ contract Dai is LibNote {
         emit Transfer(src, dst, wad);
         return true;
     }
-    function mint(address usr, uint wad) external auth {
+    function _mint(address usr, uint wad) internal {
         balanceOf[usr] = add(balanceOf[usr], wad);
         totalSupply    = add(totalSupply, wad);
         emit Transfer(address(0), usr, wad);
     }
-    function burn(address usr, uint wad) external {
+    function _burn(address usr, uint wad) internal {
         require(balanceOf[usr] >= wad, "Dai/insufficient-balance");
         if (usr != msg.sender && allowance[usr][msg.sender] != uint(-1)) {
             require(allowance[usr][msg.sender] >= wad, "Dai/insufficient-allowance");
