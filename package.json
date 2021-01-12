@@ -1,0 +1,14 @@
+{
+  "name": "dss",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/makerdao/dss.git",
+  "author": "Krzysztof Kaczor <krzkaczor@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@eth-optimism/solc": "^0.5.16-alpha.6"
+  },
+  "scripts": {
+    "build": "rm -rf build && ./node_modules/@eth-optimism/solc/solcjs --bin --abi -o ./build --base-path ./src ./src/odai.sol"
+  }
+}
